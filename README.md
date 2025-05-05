@@ -27,9 +27,55 @@ To get started with the AI-Powered Mock Interview Platform, follow these steps:
 
 3. Install dependencies by running: `npm install` 
 
-4. Start the Server `npm run dev` 
+4. Start the Server `npm run dev`
+5. Set up environment variables
+Create a .env.local file in the root with the following keys:
 
-5. Access the Application: Open your browser and go to http://localhost:3000 to access the application.
+env
+CLERK_PUBLISHABLE_KEY=your-clerk-publishable-key
+CLERK_SECRET_KEY=your-clerk-secret-key
+
+DATABASE_URL=postgresql://user:password@host:port/dbname
+
+GEMINI_API_KEY=your-gemini-api-key
+4. Set up the database (Neon)
+If you're using Neon, run this to initialize your schema:
+
+sql
+-- Run inside Neon SQL Console
+
+CREATE TABLE "mockInterview" (
+  id SERIAL PRIMARY KEY,
+  "jsonMockResp" TEXT NOT NULL,
+  "jobPosition" VARCHAR NOT NULL,
+  "jobDesc" VARCHAR NOT NULL,
+  "jobExperience" VARCHAR NOT NULL,
+  "createdBy" VARCHAR NOT NULL,
+  "createdAt" VARCHAR,
+  "mockId" VARCHAR NOT NULL
+);
+Or run via Drizzle migration (if set up):
+
+bash
+
+npm run drizzle:migrate
+📦 Folder Structure
+bash
+
+/app
+  /dashboard
+    /interview/[interviewId]/[mockId]/start  → Interview start page
+  /_components                              → Shared components
+  /api/questions/[mockId]/route.js          → API route to fetch questions
+
+/utils
+  db.js                                     → Neon DB connection via Drizzle
+  schema.js                                 → Drizzle schema definition
+  GeminiAIModal.js                          → Gemini API handler
+
+
+
+6. Access the Application: Open your browser and go to http://localhost:3000 to access the application.
 
 ## Technologies Used
 - Next.js: A React framework for building server-side rendered and static web applications.
